@@ -38,6 +38,7 @@ const permPalin = str => {
   // for (let i=0; i < str.length; i++) {
   for (const slot of alphaHash._slots) {
     // oddCount += alphaHash.get(str[i]) % 2;
+    // I am cheating :(
     slot ? oddCount += slot.value % 2 : '';
   }
 

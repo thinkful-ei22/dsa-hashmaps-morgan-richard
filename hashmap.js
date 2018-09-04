@@ -22,12 +22,16 @@ class HashMap {
     }
 
     const index = this._findSlot(key);
+    // fixed how length works
+    this._slots[index] === undefined ? this.length++ : null;
     this._slots[index] = {
       key,
       value,
       deleted: false
     };
-    this.length++;
+
+    // this.length++;
+    
   }
 
   remove(key) {

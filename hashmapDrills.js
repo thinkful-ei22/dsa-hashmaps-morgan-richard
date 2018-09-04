@@ -25,6 +25,7 @@ const main = () => {
 const permPalin = str => {
   const alphaHash = new HashMap(26);
   const palinReq = str.length % 2;
+  let odd = 0;
   let count;
   for (let i=0; i < str.length; i++) {
     try {
@@ -32,23 +33,30 @@ const permPalin = str => {
     } catch(e) { 
       count = 0;
     }
-    alphaHash.set(str[i], count+1);
+    count ++;
+    // odd in the first for
+    if (count % 2 === 0) {
+      odd --;
+    } else {
+      odd ++;
+    }
+    // end of addin
+    alphaHash.set(str[i], count);
   }
+  
   let oddCount=0;
-  // for (let i=0; i < str.length; i++) {
   for (const slot of alphaHash._slots) {
-    // oddCount += alphaHash.get(str[i]) % 2;
     // I am cheating :(
     slot ? oddCount += slot.value % 2 : '';
   }
 
-  if (palinReq === 0) {
-    return oddCount === 0;
-  } else {
-    return oddCount === 1;
-  }
-
   // console.log(alphaHash);
+
+  if (palinReq === 0) {
+    return odd === 0;
+  } else {
+    return odd === 1;
+  }
 
 };
 

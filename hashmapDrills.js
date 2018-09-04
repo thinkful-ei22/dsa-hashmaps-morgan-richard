@@ -1,15 +1,17 @@
 'use strict';
 
 const HashMap = require('./hashmap');
+const HashMapChain = require('./hashmapChain');
 
 const main = () => {
-  const lor = new HashMap();
+  const lor = new HashMapChain();
   
   lor.set('Hobbit', 'Bilbo');
   lor.set('Hobbit', 'Frodo');
   lor.set('Wizard', 'Gandolf');
   lor.set('Human', 'Aragon');
   lor.set('Elf', 'Legolas');
+  // lor.remove('Hobbit');
   lor.set('Maiar', 'The Necromancer');
   lor.set('Maiar', 'Sauron');
   lor.set('RingBearer', 'Gollum');
@@ -17,9 +19,10 @@ const main = () => {
   lor.set('HalfElven', 'Arwen');
   lor.set('Ent', 'Treebeard');
   
+  
 
   console.log(lor.get('Hobbit'));
-  // console.log(lor);
+  // console.log(JSON.stringify(lor, null, 2));
 };
 
 // main();
@@ -29,7 +32,7 @@ const main = () => {
 /* --------------- Palindrome Permutation Drill ----------------- */
 
 const permPalin = str => {
-  const alphaHash = new HashMap(26);
+  const alphaHash = new HashMapChain(26);
   const palinReq = str.length % 2;
   let odd = 0;
   let count;
@@ -92,34 +95,6 @@ const permPalin = str => {
 
 //for east --> aest,  hashmap.get('aest'), push into solution, hashmap.remove('aest')
 
-// {
-//   'e': true,
-//   'a': true,
-//   's': true,
-//   't': true
-// }
-
-//input: east  OR  teas
-//output: aest
-// function sameWord(str1, str2){
-//   if(str1.length !== str2.length){
-//     return false;
-//   }  
-
-//   let counter = 0;
-//   let same = true; //eatts  eatss
-//   while(counter < str1.length && same){
-//     if(!str2.includes(str1[counter])){
-//       same = false;
-//     }
-
-//     counter++;
-//   }
-
-//   return same;
-// }
-
-
   //'eats'
 // function abcOrder(str){
 //   let arrangedWord = '';
@@ -137,28 +112,12 @@ const permPalin = str => {
 //     }
 //   }
 
-  // const wordHash = new HashMap(26);
-
-  // for (let i=0; i < str.length; i++) {
-  //   let count;
-  //   try {
-  //     count = wordHash.get(str[i]);
-  //   } catch(e){
-  //     count = 0;
-  //   }
-  //   count += 1;
-
-  //   wordHash.set(str[i], count);
-  // }
-
-  // console.log(wordHash);
-
 function sort(str){
   return str.split('').sort().join('');
 }
 
 function anagramGrouping(wordArr){
-  const anagramHash = new HashMap();
+  const anagramHash = new HashMapChain();
 
   for(let i = 0; i < wordArr.length; i++){
     const sorted = sort(wordArr[i]);
@@ -168,15 +127,27 @@ function anagramGrouping(wordArr){
       anagramHash.set(sorted, [...anagramArray, wordArr[i]]);
     } catch (e) {
       //not in there yet
-      anagramHash.set(sorted, [wordArr[i]])
+      anagramHash.set(sorted, [wordArr[i]]);
     }
   }
+
   //for east --> aest,  hashmap.get('aest'), push into solution, hashmap.remove('aest')
+  let result = [];
+  for (let i = 0; i < wordArr.length; i++) {
 
+    let sorted = sort(wordArr[i]);
+    try {
 
-  console.log(anagramHash.get('acer'));
-  console.log(anagramHash.get('aest'));
-  console.log(anagramHash.get('acrs'));
+      result.push(anagramHash.get(sorted));
+      console.log('sorted -------', sorted);
+      anagramHash.remove(sorted);
+    }
+    catch(e) {
+      console.log('error');
+    }
+  }
+  console.log(JSON.stringify(anagramHash, null, 2));
+  return result;
 }
 
-anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']);
+console.log(anagramGrouping(['east', 'cars', 'acre', 'arcs', 'teas', 'eats', 'race']));
